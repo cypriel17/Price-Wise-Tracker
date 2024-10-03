@@ -9,9 +9,16 @@ import { supabase } from '~/utils/supabase';
 
 dayjs.extend(relativeTime);
 
+interface Search {
+  id: string;
+  query: string;
+  created_at: string;
+  status: string;
+}
+
 export default function Home() {
   const [search, setSearch] = useState('');
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<Search[]>([]);
   const { user } = useAuth();
 
   const fetchHistory = () => {
@@ -20,7 +27,11 @@ export default function Home() {
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
-      .then(({ data }) => setHistory(data));
+      .then(({ data }) => {
+        if (data) {
+          setHistory(data as Search[]);
+        }
+      });
   };
 
   useEffect(() => {
@@ -64,7 +75,8 @@ export default function Home() {
         contentContainerClassName="p-3 gap-2 "
         onRefresh={fetchHistory}
         refreshing={false}
-        renderItem={({ item }) => (
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }: { item: Search }) => (
           <Link href={`/search/${item.id}`} asChild>
             <Pressable className=" border-b border-gray-200 pb-2">
               <Text className="text-lg font-semibold">{item.query}</Text>

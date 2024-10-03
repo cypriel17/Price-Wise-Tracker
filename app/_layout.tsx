@@ -10,7 +10,6 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-
   return (
     <AuthContextProvider>
       <Stack>

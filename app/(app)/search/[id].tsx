@@ -2,18 +2,40 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Text, View, FlatList, Image, Pressable, Linking, ActivityIndicator, Button, } from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  Image,
+  Pressable,
+  Linking,
+  ActivityIndicator,
+  Button,
+} from 'react-native';
+
+interface Product {
+  asin: string;
+  name: string;
+  url: string;
+  image: string;
+  final_price: number;
+}
+
+interface Search {
+  id: string;
+  query: string;
+  created_at: string;
+  status: string;
+}
 
 import { supabase } from '~/utils/supabase';
 
 dayjs.extend(relativeTime);
 
-// const products = dummyProducts.slice(0, 20);
-
 export default function SearchResultScreen() {
   const { id } = useLocalSearchParams();
-  const [search, setSearch] = useState();
-  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState<Search | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     supabase
@@ -29,7 +51,7 @@ export default function SearchResultScreen() {
       .eq('search_id', id)
       .then(({ data, error }) => {
         console.log(data, error);
-        setProducts(data?.map((d) => d.products));
+        setProducts(data?.map((d) => d.products) as Product[] || []);
       });
   }, [id]);
 
