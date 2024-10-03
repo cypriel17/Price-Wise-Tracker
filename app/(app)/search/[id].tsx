@@ -2,18 +2,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  Image,
-  Pressable,
-  Linking,
-  ActivityIndicator,
-  Button,
-} from 'react-native';
+import { Text, View, FlatList, Image, Pressable, Linking, ActivityIndicator, Button, } from 'react-native';
 
-import dummyProducts from '~/assets/search.json';
 import { supabase } from '~/utils/supabase';
 
 dayjs.extend(relativeTime);
