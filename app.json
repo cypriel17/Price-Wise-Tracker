@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "PriceViaTracker",
-    "slug": "PriceViaTracker",
+    "name": "PriceWise",
+    "slug": "PriceWise",
     "version": "1.0.0",
 
-    "scheme": "PriceViaTracker",
+    "scheme": "PriceWise",
     "web": {
       "bundler": "metro",
       "output": "static",
