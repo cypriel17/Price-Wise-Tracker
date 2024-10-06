@@ -36,16 +36,22 @@ export type Database = {
     Tables: {
       product_search: {
         Row: {
-          asin: string
-          search_id: number
+          asin: string | null
+          created_at: string
+          id: number
+          search_id: number | null
         }
         Insert: {
-          asin: string
-          search_id: number
+          asin?: string | null
+          created_at?: string
+          id?: number
+          search_id?: number | null
         }
         Update: {
-          asin?: string
-          search_id?: number
+          asin?: string | null
+          created_at?: string
+          id?: number
+          search_id?: number | null
         }
         Relationships: [
           {
@@ -66,19 +72,19 @@ export type Database = {
       }
       product_snapshot: {
         Row: {
-          asin: string
+          asin: string | null
           created_at: string
           final_price: number
           id: number
         }
         Insert: {
-          asin: string
+          asin?: string | null
           created_at?: string
           final_price: number
           id?: number
         }
         Update: {
-          asin?: string
+          asin?: string | null
           created_at?: string
           final_price?: number
           id?: number
