@@ -22,6 +22,10 @@ export default function Home() {
   const { user } = useAuth();
 
   const fetchHistory = () => {
+
+    if (!user){
+      return;
+    }
     supabase
       .from('searches')
       .select('*')
