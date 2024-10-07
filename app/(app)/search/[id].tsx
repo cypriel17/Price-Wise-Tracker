@@ -35,7 +35,13 @@ export default function SearchResultScreen() {
       .eq('search_id', id)
       .then(({ data, error }) => {
         console.log(data, error);
-        setProducts(data?.map((d) => d.products).filter((p) => !!p) as Tables<'products'>[]);
+        if (data) {
+          setProducts(data.map((d) => d.products).filter((p) => p !== null) as Tables<'products'>[]);
+        } else {
+          // Handle case where data is null
+          console.error("No products found:", error);
+          setProducts([]);
+        }
       });
   };
 
@@ -49,7 +55,7 @@ export default function SearchResultScreen() {
         (payload) => {
           console.log(JSON.stringify(payload.new, null, 2));
           if (payload.new?.id === parseInt(id, 10)) {
-            setSearch(payload.new);
+            setSearch(payload.new as Tables<'searches'>);
             fetchProducts();
           }
         }
@@ -81,7 +87,7 @@ export default function SearchResultScreen() {
     setSearch(data);
   };
 
-  const getProductLastPrices = async (product) => {
+  const getProductLastPrices = async (product: Tables<'products'>): Promise<Tables<'products'> & { snapshots: Tables<'product_snapshot'>[] }> => {
     const { data, error } = await supabase
       .from('product_snapshot')
       .select('*')
@@ -91,7 +97,7 @@ export default function SearchResultScreen() {
     console.log(error);
     return {
       ...product,
-      snapshots: data,
+      snapshots: data ?? [],
     };
   };
 
